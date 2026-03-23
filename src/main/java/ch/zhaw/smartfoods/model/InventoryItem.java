@@ -31,4 +31,7 @@ public class InventoryItem {
     @NonNull
     private Double price;
     private ItemStatus status = ItemStatus.ACTIVE;
+    @NonNull
+    private String storageLocationId; 
+
 }
