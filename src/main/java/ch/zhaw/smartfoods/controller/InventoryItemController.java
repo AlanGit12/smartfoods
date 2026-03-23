@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api")
@@ -40,7 +42,15 @@ public class InventoryItemController {
     }
 
     @GetMapping("/inventory")
-    public ResponseEntity<List<InventoryItem>> getAllItems() {
+    public ResponseEntity<List<InventoryItem>> getAllItems(
+        @RequestParam(required = false) String storageLocationId) {
+
+            if(storageLocationId != null){
+        
+                return ResponseEntity.ok(
+                    inventoryItemRepository.findByStorageLocationId(storageLocationId));
+            }
+
         return ResponseEntity.ok(inventoryItemRepository.findAll());
     }
 
@@ -52,4 +62,7 @@ public class InventoryItemController {
         }
         return ResponseEntity.notFound().build();
     }
+
+
+    
 }
