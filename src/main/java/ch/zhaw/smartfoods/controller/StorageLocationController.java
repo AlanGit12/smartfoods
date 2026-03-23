@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ch.zhaw.smartfoods.model.StorageLocation;
 import ch.zhaw.smartfoods.model.StorageLocationCreateDTO;
 import ch.zhaw.smartfoods.repository.StorageLocationRepository;
+import ch.zhaw.smartfoods.service.StorageLocationService;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,16 +27,18 @@ public class StorageLocationController {
     @Autowired
     StorageLocationRepository storageLocationRepository;
 
+    @Autowired
+    StorageLocationService storageLocationService;
+
     @PostMapping("/storage")
-    public ResponseEntity<StorageLocation> createStorageLocation (@RequestBody StorageLocationCreateDTO place) {
-        
-        StorageLocation newPlace = new StorageLocation(
-            place.getName(),
-            place.getStorageType(),
-            place.getIcon()
-        );
-        StorageLocation saved=  storageLocationRepository.save(newPlace);
-        return new ResponseEntity <>(saved, HttpStatus.CREATED); 
+    public ResponseEntity<StorageLocation> createStorageLocation (@RequestBody StorageLocationCreateDTO dto) {
+
+        try{
+            StorageLocation saved = storageLocationService.createLocation(dto);
+            return new ResponseEntity<>(saved, HttpStatus.CREATED);
+        }catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }  
 
     @GetMapping("/storage")

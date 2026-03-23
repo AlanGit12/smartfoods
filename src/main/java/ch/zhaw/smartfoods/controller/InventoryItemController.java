@@ -1,6 +1,5 @@
 package ch.zhaw.smartfoods.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,42 +12,49 @@ import org.springframework.web.bind.annotation.RestController;
 import ch.zhaw.smartfoods.model.InventoryItem;
 import ch.zhaw.smartfoods.model.InventoryItemCreateDTO;
 import ch.zhaw.smartfoods.repository.InventoryItemRepository;
+import ch.zhaw.smartfoods.service.InventoryItemService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
 @RequestMapping("/api")
 public class InventoryItemController {
-    
 
     @Autowired
     InventoryItemRepository inventoryItemRepository;
 
-    @PostMapping("/inventory")
-    public ResponseEntity<InventoryItem> createItem (@RequestBody InventoryItemCreateDTO item) {
+    @Autowired
+    InventoryItemService inventoryItemService;
 
-     InventoryItem newItem = new InventoryItem(
-        item.getName(),
-        item.getQuantity(),
-        item.getExpiryDate(),
-        item.getPrice()
-    );
-    newItem.setPurchaseDate(LocalDate.now());
-     InventoryItem saved = inventoryItemRepository.save(newItem);
-        return new ResponseEntity<>(saved, HttpStatus.CREATED);
+    @PostMapping("/inventory")
+    public ResponseEntity<InventoryItem> createItem(@RequestBody InventoryItemCreateDTO dto) {
+        try {
+            InventoryItem saved = inventoryItemService.createItem(dto);
+            return new ResponseEntity<>(saved, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
-    
+
     @GetMapping("/inventory")
-    public ResponseEntity <List<InventoryItem>> getAllItems (){
+    public ResponseEntity<List<InventoryItem>> getAllItems(
+        @RequestParam(required = false) String storageLocationId) {
+
+            if(storageLocationId != null){
+        
+                return ResponseEntity.ok(
+                    inventoryItemRepository.findByStorageLocationId(storageLocationId));
+            }
+
         return ResponseEntity.ok(inventoryItemRepository.findAll());
     }
 
-
-     @GetMapping("/inventory/{id}")
+    @GetMapping("/inventory/{id}")
     public ResponseEntity<InventoryItem> getItemById(@PathVariable String id) {
         Optional<InventoryItem> item = inventoryItemRepository.findById(id);
         if (item.isPresent()) {
@@ -56,4 +62,7 @@ public class InventoryItemController {
         }
         return ResponseEntity.notFound().build();
     }
+
+
+    
 }

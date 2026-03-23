@@ -13,4 +13,5 @@ public class InventoryItemCreateDTO {
     private int quantity;
     private LocalDate expiryDate;
     private double price;
+    private String storageLocationId;
 }

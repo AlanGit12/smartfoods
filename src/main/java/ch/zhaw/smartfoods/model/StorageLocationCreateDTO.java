@@ -3,10 +3,12 @@ package ch.zhaw.smartfoods.model;
 import ch.zhaw.smartfoods.enums.StorageType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @NoArgsConstructor
 @Getter
+@Setter
 public class StorageLocationCreateDTO {
     
     private String name;
