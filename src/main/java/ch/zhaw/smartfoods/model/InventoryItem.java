@@ -30,7 +30,7 @@ public class InventoryItem {
     private LocalDate expiryDate;
     @NonNull
     private Double price;
-    private ItemStatus status = ItemStatus.ACTIVE;
+    private ItemStatus status;
     @NonNull
     private String storageLocationId; 
 
