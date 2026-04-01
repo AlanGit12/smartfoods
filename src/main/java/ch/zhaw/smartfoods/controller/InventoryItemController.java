@@ -32,9 +32,9 @@ public class InventoryItemController {
     InventoryItemService inventoryItemService;
 
     @PostMapping("/inventory")
-    public ResponseEntity<InventoryItem> createItem(@RequestBody InventoryItemCreateDTO dto) {
+    public ResponseEntity<List<InventoryItem>> createItems(@RequestBody InventoryItemCreateDTO dto) {
         try {
-            InventoryItem saved = inventoryItemService.createItem(dto);
+            List<InventoryItem> saved = inventoryItemService.createItems(dto);
             return new ResponseEntity<>(saved, HttpStatus.CREATED);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();

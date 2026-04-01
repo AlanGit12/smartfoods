@@ -26,14 +26,13 @@ public class InventoryItem {
     private String name;
     @NonNull
     private ProductUnit unit;
-    @NonNull
     private Double totalAmount;
-    private Double remainingAmoung;
+    private Double remainingAmount;
     private LocalDate purchaseDate;
     @NonNull
     private LocalDate expiryDate;
     @NonNull
-    private Double price;
+    private Double purchesePrice;
     private ItemStatus status;
     @NonNull
     private String storageLocationId; 
