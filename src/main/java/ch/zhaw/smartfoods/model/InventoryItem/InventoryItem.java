@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import ch.zhaw.smartfoods.enums.ItemStatus;
+import ch.zhaw.smartfoods.enums.ProductUnit;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -24,12 +25,15 @@ public class InventoryItem {
     @NonNull
     private String name;
     @NonNull
-    private Integer quantity;
+    private ProductUnit unit;
+    private Double totalAmount;
+    private Double remainingAmount;
+    private Double wastedAmount;
     private LocalDate purchaseDate;
     @NonNull
     private LocalDate expiryDate;
     @NonNull
-    private Double price;
+    private Double purchesePrice;
     private ItemStatus status;
     @NonNull
     private String storageLocationId; 

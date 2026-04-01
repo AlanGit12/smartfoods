@@ -15,11 +15,11 @@ import ch.zhaw.smartfoods.repository.InventoryItemRepository;
 import ch.zhaw.smartfoods.service.InventoryItemService;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
 @RequestMapping("/api")
@@ -32,9 +32,9 @@ public class InventoryItemController {
     InventoryItemService inventoryItemService;
 
     @PostMapping("/inventory")
-    public ResponseEntity<InventoryItem> createItem(@RequestBody InventoryItemCreateDTO dto) {
+    public ResponseEntity<List<InventoryItem>> createItems(@RequestBody InventoryItemCreateDTO dto) {
         try {
-            InventoryItem saved = inventoryItemService.createItem(dto);
+            List<InventoryItem> saved = inventoryItemService.createItems(dto);
             return new ResponseEntity<>(saved, HttpStatus.CREATED);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -43,14 +43,12 @@ public class InventoryItemController {
 
     @GetMapping("/inventory")
     public ResponseEntity<List<InventoryItem>> getAllItems(
-        @RequestParam(required = false) String storageLocationId) {
+            @RequestParam(required = false) String storageLocationId) {
 
-            if(storageLocationId != null){
-        
-                return ResponseEntity.ok(
+        if (storageLocationId != null) {
+            return ResponseEntity.ok(
                     inventoryItemRepository.findByStorageLocationId(storageLocationId));
-            }
-
+        }
         return ResponseEntity.ok(inventoryItemRepository.findAll());
     }
 
@@ -63,6 +61,26 @@ public class InventoryItemController {
         return ResponseEntity.notFound().build();
     }
 
+    @PatchMapping("/inventory/{id}/consume")
+    public ResponseEntity<InventoryItem> consumeItem(
+            @PathVariable String id,
+            @RequestParam Double amount) {
+        try {
+            InventoryItem updated = inventoryItemService.consumeItem(id, amount);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-    
-}
+    @PatchMapping("/inventory/{id}/waste")
+    public ResponseEntity<InventoryItem> wasteItem(
+        @PathVariable String id){
+            try{
+                InventoryItem updated = inventoryItemService.wasteItem(id);
+                return ResponseEntity.ok(updated);
+            }catch (RuntimeException e){
+                return ResponseEntity.notFound().build();
+            }
+            }
+        }
