@@ -81,6 +81,7 @@ public class InventoryItemService {
         if( item.getStatus() == ItemStatus.CONSUMED || item.getStatus() == ItemStatus.WASTED){
            throw new RuntimeException("Already consumed or wasted");
         }
+        item.setWastedAmount(item.getRemainingAmount());
         item.setStatus(ItemStatus.WASTED);
         item.setRemainingAmount(0.0);
         return inventoryItemRepository.save(item);

@@ -28,6 +28,7 @@ public class InventoryItem {
     private ProductUnit unit;
     private Double totalAmount;
     private Double remainingAmount;
+    private Double wastedAmount;
     private LocalDate purchaseDate;
     @NonNull
     private LocalDate expiryDate;
