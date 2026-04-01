@@ -24,10 +24,8 @@ public class InventoryItemService {
     StorageLocationRepository storageLocationRepository;
 
     public List <InventoryItem>  createItems (InventoryItemCreateDTO dto){
-
         if( ! storageLocationRepository.findById(dto.getStorageLocationId()).isPresent()){
-            throw new RuntimeException("Lagerort nicht gefunden");
-        }
+            throw new RuntimeException("Lagerort nicht gefunden"); }
 
         List<InventoryItem> created = new ArrayList<>();
 
@@ -52,5 +50,39 @@ public class InventoryItemService {
         }
         return created;
     }
-    
+
+    public InventoryItem consumeItem(String id, Double amount){
+        InventoryItem item = inventoryItemRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Item nicht gefunden"));
+
+        if(item.getStatus()!= ItemStatus.ACTIVE){
+            throw new RuntimeException("Item ist nicht mehr aktiv (wurde schon verbraucht/entsorgt");
+        }
+        if(item.getUnit()== ProductUnit.PIECE){
+            item.setStatus(ItemStatus.CONSUMED);
+        }else{
+            var newRemaining= item.getRemainingAmount() - amount;
+            if(newRemaining<= 0){
+                item.setStatus(ItemStatus.CONSUMED);
+                item.setRemainingAmount(0.0);
+            }else{
+                item.setRemainingAmount(newRemaining);
+            }
+        }
+        return inventoryItemRepository.save(item);
+    }
+
+
+
+    public InventoryItem wasteItem (String id){
+        InventoryItem item = inventoryItemRepository.findById(id)
+        .orElseThrow(()-> new RuntimeException("Item nicht gefunden"));
+
+        if( item.getStatus() == ItemStatus.CONSUMED || item.getStatus() == ItemStatus.WASTED){
+           throw new RuntimeException("Already consumed or wasted");
+        }
+        item.setStatus(ItemStatus.WASTED);
+        item.setRemainingAmount(0.0);
+        return inventoryItemRepository.save(item);
+    }
 }
