@@ -2,7 +2,8 @@ package ch.zhaw.smartfoods.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import ch.zhaw.smartfoods.model.InventoryItem;
+import ch.zhaw.smartfoods.model.InventoryItem.InventoryItem;
+
 import java.util.List;
 
 

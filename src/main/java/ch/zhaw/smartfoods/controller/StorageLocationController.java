@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ch.zhaw.smartfoods.model.StorageLocation;
-import ch.zhaw.smartfoods.model.StorageLocationCreateDTO;
+import ch.zhaw.smartfoods.model.StorageLocation.StorageLocation;
+import ch.zhaw.smartfoods.model.StorageLocation.StorageLocationCreateDTO;
 import ch.zhaw.smartfoods.repository.StorageLocationRepository;
 import ch.zhaw.smartfoods.service.StorageLocationService;
 

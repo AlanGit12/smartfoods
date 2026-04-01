@@ -1,4 +1,4 @@
-package ch.zhaw.smartfoods.model;
+package ch.zhaw.smartfoods.model.InventoryItem;
 
 import java.time.LocalDate;
 

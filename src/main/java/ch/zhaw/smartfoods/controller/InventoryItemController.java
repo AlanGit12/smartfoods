@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ch.zhaw.smartfoods.model.InventoryItem;
-import ch.zhaw.smartfoods.model.InventoryItemCreateDTO;
+import ch.zhaw.smartfoods.model.InventoryItem.InventoryItem;
+import ch.zhaw.smartfoods.model.InventoryItem.InventoryItemCreateDTO;
 import ch.zhaw.smartfoods.repository.InventoryItemRepository;
 import ch.zhaw.smartfoods.service.InventoryItemService;
 

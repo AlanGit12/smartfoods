@@ -1,4 +1,4 @@
-package ch.zhaw.smartfoods.model;
+package ch.zhaw.smartfoods.model.StorageLocation;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

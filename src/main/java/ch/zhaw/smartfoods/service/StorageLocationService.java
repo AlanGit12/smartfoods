@@ -3,8 +3,8 @@ package ch.zhaw.smartfoods.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ch.zhaw.smartfoods.model.StorageLocation;
-import ch.zhaw.smartfoods.model.StorageLocationCreateDTO;
+import ch.zhaw.smartfoods.model.StorageLocation.StorageLocation;
+import ch.zhaw.smartfoods.model.StorageLocation.StorageLocationCreateDTO;
 import ch.zhaw.smartfoods.repository.StorageLocationRepository;
 
 @Service

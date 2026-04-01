@@ -1,4 +1,4 @@
-package ch.zhaw.smartfoods.model;
+package ch.zhaw.smartfoods.model.StorageLocation;
 
 import ch.zhaw.smartfoods.enums.StorageType;
 import lombok.Getter;
