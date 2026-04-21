@@ -15,7 +15,12 @@ public class ItemTemplateService {
     @Autowired
     ItemTemplateRepository itemTemplateRepository;
 
+    @Autowired
+    UserService userService;
+
     public ItemTemplate createTemplate(ItemTemplateCreateDTO dto) {
+        String userId = userService.getUserId();
+
         if (itemTemplateRepository.findByName(dto.getName()).isPresent()) {
             throw new RuntimeException(
                     "Es ist bereits ein Template mit diesem Namen hinterlegt");
@@ -25,11 +30,13 @@ public class ItemTemplateService {
                 dto.getDefaultUnit(),
                 dto.getDefaultPrice(),
                 dto.getDefaultAmount());
+                template.setUserId(userId);
         return itemTemplateRepository.save(template);
     }
 
     public List<ItemTemplate> getAllTemplates(){
-            return itemTemplateRepository.findAll();
+        String userId = userService.getUserId();
+            return itemTemplateRepository.findByUserId(userId);
 
     }
 

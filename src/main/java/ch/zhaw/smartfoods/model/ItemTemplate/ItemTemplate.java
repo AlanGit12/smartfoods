@@ -27,4 +27,5 @@ public class ItemTemplate {
     private Double defaultPrice;
     @NonNull
     private Double defaultAmount;
+    private String userId;
 }

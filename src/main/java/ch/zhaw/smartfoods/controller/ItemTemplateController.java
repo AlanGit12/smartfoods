@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ch.zhaw.smartfoods.model.ItemTemplate.ItemTemplate;
 import ch.zhaw.smartfoods.model.ItemTemplate.ItemTemplateCreateDTO;
 import ch.zhaw.smartfoods.model.ItemTemplate.ItemTemplateUpdateDTO;
-import ch.zhaw.smartfoods.repository.ItemTemplateRepository;
 import ch.zhaw.smartfoods.service.ItemTemplateService;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,13 +24,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping("/api")
 public class ItemTemplateController {
 
-    @Autowired
-    ItemTemplateRepository itemTemplateRepository;
+  
 
     @Autowired
     ItemTemplateService itemTemplateService;
 
-    @PostMapping("/template")
+    @PostMapping("/item-templates")
     public ResponseEntity<ItemTemplate> createItemTemplate(@RequestBody ItemTemplateCreateDTO dto) {
         try {
             ItemTemplate saved = itemTemplateService.createTemplate(dto);
@@ -41,7 +39,7 @@ public class ItemTemplateController {
         }
     }
 
-    @GetMapping("/template")
+    @GetMapping("/item-templates")
     public ResponseEntity<List<ItemTemplate>> getItemTemplates() {
         try {
             return ResponseEntity.ok(itemTemplateService.getAllTemplates());
@@ -50,7 +48,7 @@ public class ItemTemplateController {
         }
     }
 
-    @GetMapping("/template/{id}")
+    @GetMapping("/item-templates/{id}")
     public ResponseEntity<ItemTemplate> getItemTemplateById(@PathVariable String id) {
         try {
             ItemTemplate template = itemTemplateService.getTemplateById(id);
@@ -60,7 +58,7 @@ public class ItemTemplateController {
         }
     }
 
-    @DeleteMapping("/template/{id}")
+    @DeleteMapping("/item-templates/{id}")
     public ResponseEntity<Void> deleteItemTemplateById(@PathVariable String id) {
         try {
             itemTemplateService.deleteTemplate(id);
@@ -70,7 +68,7 @@ public class ItemTemplateController {
         }
     }
 
-    @PatchMapping("/template/{id}")
+    @PatchMapping("/item-templates/{id}")
     public ResponseEntity<ItemTemplate> updateTemplate(@PathVariable String id,
             @RequestBody ItemTemplateUpdateDTO dto) {
 
