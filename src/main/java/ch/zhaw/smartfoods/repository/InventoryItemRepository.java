@@ -6,7 +6,10 @@ import ch.zhaw.smartfoods.model.InventoryItem.InventoryItem;
 
 import java.util.List;
 
-
-public interface InventoryItemRepository extends MongoRepository <InventoryItem, String>{
+public interface InventoryItemRepository extends MongoRepository<InventoryItem, String> {
     List<InventoryItem> findByStorageLocationId(String storageLocationId);
+
+    List<InventoryItem> findByUserId(String userId);
+
+    List<InventoryItem> findByStorageLocationIdAndUserId(String storageLocationId, String userId);
 }

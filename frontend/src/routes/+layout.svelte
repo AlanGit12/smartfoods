@@ -1,6 +1,10 @@
 <script>
   import { page } from '$app/stores';
 
+
+   let { data, children } = $props();      
+  let { user, isAuthenticated } = data;    
+
   const navItems = [
     { path: '/inventoryitem',                 label: 'Inventar',    icon: '◫' },
     { path: '/storage-locations', label: 'Lagerorte',   icon: '◎' },
@@ -17,19 +21,41 @@
       <div class="logo-sub">Deine digitale Küche</div>
     </div>
 
-    <nav>
-      {#each navItems as item}
-        <a href={item.path} class="nav-item" class:active={$page.url.pathname === item.path}>
-          <span class="nav-icon">{item.icon}</span>
-          {item.label}
-        </a>
-      {/each}
-    </nav>
+
+    <div class="user-section">
+  {#if isAuthenticated}
+    <span class="username">{user.name}</span>
+    <form method="POST" action="/logout">
+      <button type="submit" class="logout-btn">Logout</button>
+    </form>
+  {:else}
+    <a href="/login" class="login-btn">Login</a>
+    <a href="/signup" class="login-btn">Sign Up</a>
+  {/if}
+</div>
+
+   <nav>
+  {#if isAuthenticated}
+    {#each navItems as item}
+      <a href={item.path} class="nav-item" class:active={$page.url.pathname === item.path}>
+        <span class="nav-icon">{item.icon}</span>
+        {item.label}
+      </a>
+    {/each}
+
+    {#if user.user_roles && user.user_roles.includes("admin")}
+      <a href="/item-templates" class="nav-item" class:active={$page.url.pathname === '/item-templates'}>
+        <span class="nav-icon">⚙</span>
+        Templates
+      </a>
+    {/if}
+  {/if}
+</nav>
   </aside>
 
-  <main>
-    <slot />
-  </main>
+<main>
+  {@render children()}
+</main>
 </div>
 
 <style>

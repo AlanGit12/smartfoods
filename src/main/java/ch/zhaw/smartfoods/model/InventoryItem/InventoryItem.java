@@ -37,5 +37,6 @@ public class InventoryItem {
     private ItemStatus status;
     @NonNull
     private String storageLocationId; 
+    private String userId;
 
 }
