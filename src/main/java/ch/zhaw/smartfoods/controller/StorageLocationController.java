@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
 @RestController
 @RequestMapping("/api")
 public class StorageLocationController {
@@ -31,29 +30,28 @@ public class StorageLocationController {
     StorageLocationService storageLocationService;
 
     @PostMapping("/storage")
-    public ResponseEntity<StorageLocation> createStorageLocation (@RequestBody StorageLocationCreateDTO dto) {
+    public ResponseEntity<StorageLocation> createStorageLocation(@RequestBody StorageLocationCreateDTO dto) {
 
-        try{
+        try {
             StorageLocation saved = storageLocationService.createLocation(dto);
             return new ResponseEntity<>(saved, HttpStatus.CREATED);
-        }catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
-    }  
+    }
 
     @GetMapping("/storage")
     public ResponseEntity<List<StorageLocation>> getStorageLocation() {
-        return ResponseEntity.ok(storageLocationRepository.findAll());
-    }
-    
-    @GetMapping("/storage/{id}")
-    public ResponseEntity<StorageLocation> getStorageLocationById(@PathVariable String id){
-         Optional<StorageLocation> place = storageLocationRepository.findById(id);
-         if( place.isPresent()){
-            return ResponseEntity.ok(place.get());
-         }
-         return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(storageLocationService.getAllLocations());
     }
 
+    @GetMapping("/storage/{id}")
+    public ResponseEntity<StorageLocation> getStorageLocationById(@PathVariable String id) {
+        Optional<StorageLocation> place = storageLocationRepository.findById(id);
+        if (place.isPresent()) {
+            return ResponseEntity.ok(place.get());
+        }
+        return ResponseEntity.notFound().build();
+    }
 
 }

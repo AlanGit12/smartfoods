@@ -24,4 +24,5 @@ public class StorageLocation {
     private StorageType storageType;
     @NonNull
     private String icon;
+    private String userId;
 }
