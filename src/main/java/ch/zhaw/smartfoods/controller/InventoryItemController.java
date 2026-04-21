@@ -44,12 +44,7 @@ public class InventoryItemController {
     @GetMapping("/inventory")
     public ResponseEntity<List<InventoryItem>> getAllItems(
             @RequestParam(required = false) String storageLocationId) {
-
-        if (storageLocationId != null) {
-            return ResponseEntity.ok(
-                    inventoryItemRepository.findByStorageLocationId(storageLocationId));
-        }
-        return ResponseEntity.ok(inventoryItemRepository.findAll());
+        return ResponseEntity.ok(inventoryItemService.getAllItems(storageLocationId));
     }
 
     @GetMapping("/inventory/{id}")
@@ -75,12 +70,12 @@ public class InventoryItemController {
 
     @PatchMapping("/inventory/{id}/waste")
     public ResponseEntity<InventoryItem> wasteItem(
-        @PathVariable String id){
-            try{
-                InventoryItem updated = inventoryItemService.wasteItem(id);
-                return ResponseEntity.ok(updated);
-            }catch (RuntimeException e){
-                return ResponseEntity.notFound().build();
-            }
-            }
+            @PathVariable String id) {
+        try {
+            InventoryItem updated = inventoryItemService.wasteItem(id);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
         }
+    }
+}
