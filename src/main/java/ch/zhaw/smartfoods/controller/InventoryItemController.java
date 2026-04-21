@@ -1,7 +1,6 @@
 package ch.zhaw.smartfoods.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ch.zhaw.smartfoods.model.InventoryItem.InventoryItem;
 import ch.zhaw.smartfoods.model.InventoryItem.InventoryItemCreateDTO;
-import ch.zhaw.smartfoods.repository.InventoryItemRepository;
 import ch.zhaw.smartfoods.service.InventoryItemService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/api")
 public class InventoryItemController {
 
-    @Autowired
-    InventoryItemRepository inventoryItemRepository;
+  
 
     @Autowired
     InventoryItemService inventoryItemService;
@@ -49,11 +46,13 @@ public class InventoryItemController {
 
     @GetMapping("/inventory/{id}")
     public ResponseEntity<InventoryItem> getItemById(@PathVariable String id) {
-        Optional<InventoryItem> item = inventoryItemRepository.findById(id);
-        if (item.isPresent()) {
-            return ResponseEntity.ok(item.get());
+       
+        try{
+           InventoryItem item = inventoryItemService.getItemById(id);
+            return ResponseEntity.ok(item);
+        } catch (RuntimeException e){
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
     }
 
     @PatchMapping("/inventory/{id}/consume")

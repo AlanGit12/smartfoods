@@ -91,12 +91,17 @@ public class InventoryItemService {
     }
 
     public List<InventoryItem> getAllItems(String storageLocationId) {
-        String userId = userService.getUserId(); 
+        String userId = userService.getUserId();
 
         if (storageLocationId != null) {
-        
+
             return inventoryItemRepository.findByStorageLocationIdAndUserId(storageLocationId, userId);
         }
         return inventoryItemRepository.findByUserId(userId);
+    }
+
+    public InventoryItem getItemById(String id) {
+        return inventoryItemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Item nicht gefunden"));
     }
 }

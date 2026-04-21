@@ -1,7 +1,6 @@
 package ch.zhaw.smartfoods.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ch.zhaw.smartfoods.model.StorageLocation.StorageLocation;
 import ch.zhaw.smartfoods.model.StorageLocation.StorageLocationCreateDTO;
-import ch.zhaw.smartfoods.repository.StorageLocationRepository;
 import ch.zhaw.smartfoods.service.StorageLocationService;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,13 +21,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping("/api")
 public class StorageLocationController {
 
-    @Autowired
-    StorageLocationRepository storageLocationRepository;
 
     @Autowired
     StorageLocationService storageLocationService;
 
-    @PostMapping("/storage")
+    @PostMapping("/storage-locations")
     public ResponseEntity<StorageLocation> createStorageLocation(@RequestBody StorageLocationCreateDTO dto) {
 
         try {
@@ -40,18 +36,20 @@ public class StorageLocationController {
         }
     }
 
-    @GetMapping("/storage")
+    @GetMapping("/storage-locations")
     public ResponseEntity<List<StorageLocation>> getStorageLocation() {
         return ResponseEntity.ok(storageLocationService.getAllLocations());
     }
 
-    @GetMapping("/storage/{id}")
+    @GetMapping("/storage-locations/{id}")
     public ResponseEntity<StorageLocation> getStorageLocationById(@PathVariable String id) {
-        Optional<StorageLocation> place = storageLocationRepository.findById(id);
-        if (place.isPresent()) {
-            return ResponseEntity.ok(place.get());
+     
+        try{
+            StorageLocation loc = storageLocationService.getLocationById(id);
+            return ResponseEntity.ok(loc);
+        } catch( RuntimeException e){
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
     }
 
 }
