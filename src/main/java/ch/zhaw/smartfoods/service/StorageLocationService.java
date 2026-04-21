@@ -1,5 +1,7 @@
 package ch.zhaw.smartfoods.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +15,25 @@ public class StorageLocationService {
     @Autowired
     StorageLocationRepository storageLocationRepository;
 
+    @Autowired
+    UserService userService;
+
     public StorageLocation createLocation(StorageLocationCreateDTO dto){
+
+        String userId = userService.getUserId();
 
         StorageLocation newSpace = new StorageLocation(
             dto.getName(),
             dto.getStorageType(),
             dto.getIcon()
         );
+        newSpace.setUserId(userId);
         return storageLocationRepository.save(newSpace);
     }
+
+
+    public List<StorageLocation> getAllLocations() {
+    String userId = userService.getUserId();
+    return storageLocationRepository.findByUserId(userId);
+}
 }
