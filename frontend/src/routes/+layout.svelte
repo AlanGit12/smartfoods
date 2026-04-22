@@ -89,6 +89,8 @@
     text-decoration: none;
     border-left: 2px solid transparent;
   }
+
+
   .nav-item:hover { background: #fff; color: #222; }
   .nav-item.active {
     color: #3B6D11;
